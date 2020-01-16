@@ -46,6 +46,8 @@ public class OurAgent implements Agent {
 		}
 		if(L == 0 && W == 0) {
 			goingHome = true;
+			System.out.println("x " + x);
+			System.out.println("y " + y);
 			if(state == State.XP) { state = State.XiP;}
 			if(state == State.YP) { state = State.YiP;}
 			if(state == State.XM) { state = State.XiM;}
@@ -224,14 +226,19 @@ public class OurAgent implements Agent {
 			return turn;
 		case YiP:
 			System.out.println("YiP");
-			if(y < 0) { return "GO"; }
+			System.out.println("x " + x);
+			System.out.println("y " + y);
+			if(x > 0) {
+				x--;
+				return "GO";
+			}
 			else {
-				if(x < 0) { 
-					state = State.XiP;
+				if(y < 0) {
+					state = State.XiM;
 					return "TURN_LEFT"; 
 				}
-				if(x > 0) { 
-					state = State.XiM;
+				if(y > 0) {
+					state = State.XiP;
 					return "TURN_RIGHT"; 
 				}
 				
@@ -241,14 +248,19 @@ public class OurAgent implements Agent {
 			}
 		case YiM:
 			System.out.println("YiM");
-			if(y > 0) { return "GO"; }
+			System.out.println("x " + x);
+			System.out.println("y " + y);
+			if(x < 0) {
+				x++;
+				return "GO";
+			}
 			else {
-				if(x < 0) { 
-					state = State.XiM;
+				if(y < 0) {
+					state = State.XiP;
 					return "TURN_RIGHT"; 
 				}
-				if(x > 0) { 
-					state = State.XiP;
+				if(y > 0) {
+					state = State.XiM;
 					return "TURN_LEFT"; 
 				}
 				tempState = State.YiP;
@@ -257,15 +269,20 @@ public class OurAgent implements Agent {
 			}
 		case XiP:
 			System.out.println("XiP");
-			if(x < 0) { return "GO"; }
+			System.out.println("x " + x);
+			System.out.println("y " + y);
+			if(y < 0) {
+				y++;
+				return "GO";
+			}
 			else {
-				if(y < 0) { 
+				if(x < 0) {
 					state = State.YiP;
-					return "TURN_LEFT"; 
-				}
-				if(y > 0) { 
-					state = State.YiM;
 					return "TURN_RIGHT"; 
+				}
+				if(x > 0) {
+					state = State.YiM;
+					return "TURN_LEFT"; 
 				}
 				tempState = State.XiM;
 				state = State.TT;
@@ -273,15 +290,20 @@ public class OurAgent implements Agent {
 			}
 		case XiM:
 			System.out.println("XiM");
-			if(x > 0) { return "GO"; }
+			System.out.println("x " + x);
+			System.out.println("y " + y);
+			if(y > 0) {
+				y--;
+				return "GO";
+			}
 			else {
-				if(y < 0) { 
+				if(x < 0) {
 					state = State.YiM;
-					return "TURN_LEFT"; 
-				}
-				if(y > 0) { 
-					state = State.YiP;
 					return "TURN_RIGHT"; 
+				}
+				if(x > 0) {
+					state = State.YiP;
+					return "TURN_LEFT"; 
 				}
 				tempState = State.XiP;
 				state = State.TT;
