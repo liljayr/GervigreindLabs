@@ -103,10 +103,18 @@ public class OurAgent implements Agent {
 			if(percepts.contains("BUMP")) {
 				y++;
 				state = State.FGW;
+				System.out.println("L " + L);
+				System.out.println("l " + w);
+				System.out.println("W " + W);
+				System.out.println("w " + w);
 				return turn;
 			}
 			y--;
 			L++;
+			System.out.println("L " + L);
+			System.out.println("l " + w);
+			System.out.println("W " + W);
+			System.out.println("w " + w);
 			return "GO";
 		
 		case FGW:
@@ -115,11 +123,18 @@ public class OurAgent implements Agent {
 			if(percepts.contains("BUMP")) {
 				state = State.YP;
 				x++;
-				W--;
+				System.out.println("L " + L);
+				System.out.println("l " + w);
+				System.out.println("W " + W);
+				System.out.println("w " + w);
 				return turn;
 			}
 			x--;
 			W++;
+			System.out.println("L " + L);
+			System.out.println("l " + w);
+			System.out.println("W " + W);
+			System.out.println("w " + w);
 			return "GO";
 		//Go up by L amount, using l as a counter, turn when l becomes L and lower L by 1
 		case YP:
@@ -127,11 +142,19 @@ public class OurAgent implements Agent {
 			if(l < L) {
 				y++;
 				l++;
+				System.out.println("L " + L);
+				System.out.println("l " + w);
+				System.out.println("W " + W);
+				System.out.println("w " + w);
 				return "GO";
 			}
 			y--;
 			l--;
 			L--;
+			System.out.println("L " + L);
+			System.out.println("l " + w);
+			System.out.println("W " + W);
+			System.out.println("w " + w);
 			state = State.XP;
 			return turn;
 		//Go right by W amount, using w as a counter, turn when w becomes W and lower W by 1
@@ -140,22 +163,39 @@ public class OurAgent implements Agent {
 			if(w < W) {
 				x++;
 				w++;
+				System.out.println("L " + L);
+				System.out.println("l " + w);
+				System.out.println("W " + W);
+				System.out.println("w " + w);
 				return "GO";
 			}
 			x--;
 			w--;
 			W--;
+			System.out.println("L " + L);
+			System.out.println("l " + w);
+			System.out.println("W " + W);
+			System.out.println("w " + w);
 			state = State.YM;
+			return turn;
 		//Go down by L amount, using l as a counter, turn when l becomes 0 and lower L by 1
 		case YM:
 			System.out.println("XY");
 			if(l > 0) {
 				y--;
 				l--;
+				System.out.println("L " + L);
+				System.out.println("l " + w);
+				System.out.println("W " + W);
+				System.out.println("w " + w);
 				return "GO";
 			}
 			y++;
 			L--;
+			System.out.println("L " + L);
+			System.out.println("l " + w);
+			System.out.println("W " + W);
+			System.out.println("w " + w);
 			state = State.XM;
 			return turn;
 		//Go left by W amount, using w as a counter, turn when w becomes W and lower W by 1
@@ -164,10 +204,18 @@ public class OurAgent implements Agent {
 			if(w > 0) {
 				x--;
 				w--;
+				System.out.println("L " + L);
+				System.out.println("l " + w);
+				System.out.println("W " + W);
+				System.out.println("w " + w);
 				return "GO";
 			}
 			x++;
 			W--;
+			System.out.println("L " + L);
+			System.out.println("l " + w);
+			System.out.println("W " + W);
+			System.out.println("w " + w);
 			state = State.YP;
 			return turn;
 		case TT:
