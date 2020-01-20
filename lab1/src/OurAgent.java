@@ -24,10 +24,10 @@ public class OurAgent implements Agent {
 	State state = State.OFF;
 	int y = 0; //home location y in grid 
 	int x = 0; //home location x in grid
-	int l,w = 0;
-	int L,W = -1;
-	Boolean bump = true;
-	Boolean changedDirection = false;
+	int l = 0;
+	int w = 0;
+	int L = -1;
+	int W = -1;
 	String turn = "TURN_RIGHT";
 	Boolean goingHome = false;
 	State tempState = State.OFF; //for going home when need to turn twice in a row
@@ -41,316 +41,269 @@ public class OurAgent implements Agent {
 		System.out.println("");
 		
 		if(percepts.contains("DIRT")) {return "SUCK";}
+		
 		if(goingHome && x == 0 && y == 0) {
+			//resetting values if running program multiple times in a row.
+			state = State.OFF;
+			L = -1;
+			W = -1;
+			turn = "TURN_RIGHT";
+			goingHome = false;
+			tempState = State.OFF;
 			return "TURN_OFF";
-		}
-		if(L == 0 && W == 0) {
-			goingHome = true;
-			System.out.println("x " + x);
-			System.out.println("y " + y);
-			if(state == State.YM && turn == "TURN_RIGHT") { state = State.XiP;}
-			else if(state == State.YM && turn == "TURN_LEFT") { state = State.XiM; }
-			if(state == State.XP && turn == "TURN_RIGHT") { state = State.YiP;}
-			else if(state == State.XP && turn == "TURN_LEFT") { state = State.XiM; }
-			if(state == State.YP && turn == "TURN_RIGHT") { state = State.XiM;}
-			else if(state == State.YP && turn == "TURN_LEFT") { state = State.XiM; }
-			if(state == State.XM && turn == "TURN_RIGHT") { state = State.YiM;}
-			else if(state == State.XM && turn == "TURN_LEFT") { state = State.XiM; }
 		}
 		
 		switch(state) {
 		case OFF:
 			state = State.FW;
+			printing("TURN_ON");
+			System.out.println("TURNiNG ONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
 			return "TURN_ON";
 		case FW: //find y in home location
-			System.out.println("FW");
 			
 			if(percepts.contains("BUMP")) {
 				y--;
-				state = State.B2;
+				state = State.FC;
+				printing("turn"); 
 				return turn;
 			}
 			y++;
+			printing("GO"); 
 			return "GO";
-		case B2: //checking if 
-			System.out.println("B2");
-			if(bump == true) {
-				x++; ////////////////////////////
-				bump = false;
-				return "GO";
-			}
-			if(percepts.contains("BUMP")) {
-				x--;
-				turn = "TURN_LEFT";
-				state = State.CD;
-				return turn;
-			}
-			state = State.FC;
 		case FC: //find y in home location
-			System.out.println("FC");
-			
 			if(percepts.contains("BUMP")) {
 				x--;
 				state = State.FGL;
+				printing("turn");
 				return turn;
 			}
 			x++;
+			printing("GO"); 
 			return "GO";
-		case CD:
-			System.out.println("CD");
-			int temp = x;
-			x = y;
-			y = temp;
-			state = State.FGL;
-			return turn;
 		case FGL:
-			System.out.println("FGL");
 			
 			if(percepts.contains("BUMP")) {
 				y++;
 				state = State.FGW;
-				System.out.println("L " + L);
-				System.out.println("l " + w);
-				System.out.println("W " + W);
-				System.out.println("w " + w);
+				printing("turn"); 
 				return turn;
 			}
 			y--;
 			L++;
-			System.out.println("L " + L);
-			System.out.println("l " + w);
-			System.out.println("W " + W);
-			System.out.println("w " + w);
+			printing("GO"); 
 			return "GO";
 		
 		case FGW:
-			System.out.println("FGW");
 			
 			if(percepts.contains("BUMP")) {
 				state = State.YP;
 				x++;
-				System.out.println("L " + L);
-				System.out.println("l " + w);
-				System.out.println("W " + W);
-				System.out.println("w " + w);
+				W--;
+				printing("turn"); 
 				return turn;
 			}
 			x--;
 			W++;
-			System.out.println("L " + L);
-			System.out.println("l " + w);
-			System.out.println("W " + W);
-			System.out.println("w " + w);
+			printing("GO");
 			return "GO";
 		//Go up by L amount, using l as a counter, turn when l becomes L and lower L by 1
 		case YP:
-			System.out.println("YP");
 			if(L != 0) {
 				if(l < L) {
 					y++;
 					l++;
-					System.out.println("x " + x);
-					System.out.println("y " + y);
-					//System.out.println("L " + L);
-					//System.out.println("l " + w);
-					//System.out.println("W " + W);
-					//System.out.println("w " + w);
+					printing("GO");
 					return "GO";
 				}
-				y--;
 				l--;
 				L--;
 			}
-			System.out.println("x " + x);
-			System.out.println("y " + y);
-			//System.out.println("L " + L);
-			//System.out.println("l " + w);
-			//System.out.println("W " + W);
-			//System.out.println("w " + w);
-			state = State.XP;
-			return turn;
+
+			if(!goingHome(L, W)) {
+				state = State.XP;
+				printing("turn"); 
+				return turn;
+			}
+			break;
 		//Go right by W amount, using w as a counter, turn when w becomes W and lower W by 1
 		case XP:
-			System.out.println("XP");
 			if(W != 0) {
 				if(w < W) {
 					x++;
 					w++;
-					System.out.println("x " + x);
-					System.out.println("y " + y);
-					//System.out.println("L " + L);
-					//System.out.println("l " + w);
-					//System.out.println("W " + W);
-					//System.out.println("w " + w);
+					printing("GO"); 
 					return "GO";
 				}
-				x--;
 				w--;
 				W--;
 			}
-			System.out.println("x " + x);
-			System.out.println("y " + y);
-			//System.out.println("L " + L);
-			//System.out.println("l " + w);
-			//System.out.println("W " + W);
-			//System.out.println("w " + w);
-			state = State.YM;
-			return turn;
+
+			if(!goingHome(L, W)) {
+				state = State.YM;
+				printing("turn"); 
+				return turn;
+			}
+			break;
 		//Go down by L amount, using l as a counter, turn when l becomes 0 and lower L by 1
 		case YM:
-			System.out.println("XY");
 			if(L != 0) {
 				if(l > 0) {
 					y--;
 					l--;
-					System.out.println("x " + x);
-					System.out.println("y " + y);
-					//System.out.println("L " + L);
-					//System.out.println("l " + w);
-					//System.out.println("W " + W);
-					//System.out.println("w " + w);
+					printing("GO"); 
 					return "GO";
 				}
-				y++;
 				L--;
 			}
-			System.out.println("x " + x);
-			System.out.println("y " + y);
-			//System.out.println("L " + L);
-			//System.out.println("l " + w);
-			//System.out.println("W " + W);
-			//System.out.println("w " + w);
-			state = State.XM;
-			return turn;
+
+			if(!goingHome(L,W)) {
+				state = State.XM;
+				printing("turn"); 
+				return turn;
+			}
+			break;
+
 		//Go left by W amount, using w as a counter, turn when w becomes W and lower W by 1
 		case XM:
-			System.out.println("XM");
 			if(W != 0) {
 				if(w > 0) {
 					x--;
 					w--;
-					System.out.println("x " + x);
-					System.out.println("y " + y);
-					//System.out.println("L " + L);
-					//System.out.println("l " + w);
-					//System.out.println("W " + W);
-					//System.out.println("w " + w);
+					printing("GO");
 					return "GO";
 				}
-				x++;
 				W--;
 			}
-			System.out.println("x " + x);
-			System.out.println("y " + y);
-			//System.out.println("L " + L);
-			//System.out.println("l " + w);
-			//System.out.println("W " + W);
-			//System.out.println("w " + w);
-			state = State.YP;
-			return turn;
+			if(!goingHome(L, W)) {
+				state = State.YP;
+				printing("turn"); 
+				return turn;
+			}
+			break;
+		}
+		
+		switch(state) {
 		case TT:
-			System.out.println("TT");
 			state = tempState;
+			printing("turn"); 
 			return turn;
-		case YiP: //EAST
-			System.out.println("YiP");
-			System.out.println("x " + x);
-			System.out.println("y " + y);
+		case XiP:
 			if(x < 0) {
 				x++;
+				printing("GO"); 
 				return "GO";
 			}
 			else {
 				if(y < 0) {
-					state = State.XiM; ////////////////////
-					System.out.println("changing to XiM");
+					state = State.YiP; ////////////////////
+					printing("TURN_LEFT"); 
 					return "TURN_LEFT"; 
 				}
 				if(y > 0) {
-					state = State.XiP; ///////////////////
-					System.out.println("changing to XiP");
+					state = State.YiM; ///////////////////
+					printing("TURN_RIGHT"); 
 					return "TURN_RIGHT"; 
 				}
 				
-				tempState = State.YiM;
+				tempState = State.XiM;
 				state = State.TT;
+				printing("turn"); 
 				return turn;
 			}
-		case YiM: //WEST
-			System.out.println("YiM");
-			System.out.println("x " + x);
-			System.out.println("y " + y);
+		case XiM:
 			if(x > 0) {
 				x--;
+				printing("GO"); 
 				return "GO";
 			}
 			else {
 				if(y < 0) {
-					state = State.XiM;
-					System.out.println("changing to XiM");
+					state = State.YiM;
+					printing("TURN_RIGHT"); 
 					return "TURN_RIGHT"; 
 				}
 				if(y > 0) {
-					state = State.XiP;
-					System.out.println("changing to XiM");
-					return "TURN_LEFT"; 
-				}
-				tempState = State.YiP;
-				state = State.TT;
-				return turn;
-			}
-		case XiP: //SOUTH
-			System.out.println("XiP");
-			System.out.println("x " + x);
-			System.out.println("y " + y);
-			if(y > 0) {
-				y--;
-				return "GO";
-			}
-			else {
-				if(x < 0) {
 					state = State.YiP;
-					System.out.println("changing to YiP");
-					return "TURN_LEFT";
-				}
-				if(x > 0) {
-					state = State.YiM;
-					System.out.println("changing to YiM");
-					return "TURN_RIGHT";
-				}
-				tempState = State.XiM;
-				state = State.TT;
-				return turn;
-			}
-		case XiM: //NORTH
-			System.out.println("XiM");
-			System.out.println("x " + x);
-			System.out.println("y " + y);
-			if(y < 0) {
-				y++;
-				return "GO";
-			}
-			else {
-				if(x < 0) {
-					state = State.YiP;
-					System.out.println("changing to YiP");
-					return "TURN_RIGHT"; 
-				}
-				if(x > 0) {
-					state = State.YiM;
-					System.out.println("changing to YiM");
+					printing("TURN_LEFT"); 
 					return "TURN_LEFT"; 
 				}
 				tempState = State.XiP;
 				state = State.TT;
+				printing("turn"); 
+				return turn;
+			}
+		case YiM:
+			if(y > 0) {
+				y--;
+				printing("GO"); 
+				return "GO";
+			}
+			else {
+				if(x < 0) {
+					state = State.XiP;
+					printing("TURN_LEFT"); 
+					return "TURN_LEFT";
+				}
+				if(x > 0) {
+					state = State.XiM;
+					printing("TURN_RIGHT"); 
+					return "TURN_RIGHT";
+				}
+				tempState = State.YiP;
+				state = State.TT;
+				printing("turn"); 
+				return turn;
+			}
+		case YiP:
+			if(y < 0) {
+				y++;
+				printing("GO"); 
+				return "GO";
+			}
+			else {
+				if(x < 0) {
+					state = State.XiP;
+					printing("TURN_RIGHT"); 
+					return "TURN_RIGHT"; 
+				}
+				if(x > 0) {
+					state = State.XiM;
+					printing("TURN_LEFT"); 
+					return "TURN_LEFT"; 
+				}
+				tempState = State.YiM;
+				state = State.TT;
+				printing("turn"); 
 				return turn;
 			}
 		default: //Home reached, turn off
-
-			System.out.println("X: " + x);
-			System.out.println("Y: " + y);
 			
+			printing("TURN_OFF"); 
 			return "TURN_OFF";
 		}
+	}
+    private void printing(String action) {
+    	System.out.println(state);
+    	System.out.println("Action: " + action);
+    	System.out.println("X: " + x + ", Y: " + y);
+    	System.out.println("W: " + W + ", L: " + L);
+    	System.out.println("w: " + w + ", l: " + l);
+    	System.out.println("Going home: " + goingHome);
+    }
+    private Boolean goingHome(int L, int W) {
+    	if(L == 0 && W == 0) 
+    	{
+			if(state == State.YM) { state = State.YiM;}
+			if(state == State.XP) { state = State.XiP;}
+			if(state == State.YP) { state = State.YiP;}
+			if(state == State.XM) { state = State.XiM;}
+			
+			System.out.println(state);
+			
+			goingHome = true;
+			
+			return true;
+    	}
+    	return false;
 	}
 }
