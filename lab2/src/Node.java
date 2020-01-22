@@ -18,7 +18,7 @@ public class Node {
 		this.state = state;
 		this.action = null;
 		this.depth = 0;
-		this.evaluation = val;
+		this.evaluation = val;	//totalCost
 	}
 	/**
 	 * create a new node

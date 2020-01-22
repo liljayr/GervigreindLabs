@@ -131,7 +131,6 @@ public class Environment {
 	 */
 	public State getNextState(State s, Action a) {
 		State succState = s.clone();
-		System.out.println("HIIIIIII");
 		// switch case 1: switching between different actions
 		// (GO, SUCK, TURN_LEFT, TURN_RIGHT, TURN_OFF, TURN_ON)
 		switch(a){
