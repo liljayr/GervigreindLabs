@@ -131,11 +131,31 @@ public class Environment {
 	 */
 	public State getNextState(State s, Action a) {
 		State succState = s.clone();
-		// TODO: fill out this function
+		System.out.println("HIIIIIII");
 		// switch case 1: switching between different actions
 		// (GO, SUCK, TURN_LEFT, TURN_RIGHT, TURN_OFF, TURN_ON)
-		// In TURN_LEFT and TURN_RIGHT use mod (%4) to keep the orientation from going over 4
-		// if in case GO then you have to use facingPosition in State.java
+		switch(a){
+			// In case GO then you have to use facingPosition in State.java
+			case GO:
+				succState.position = s.facingPosition();
+				break;
+			case SUCK:
+				succState.dirt.remove(succState.position);
+				break;
+			// In TURN_LEFT and TURN_RIGHT use mod (%4) to keep the orientation from going over 4
+			case TURN_RIGHT:
+				succState.orientation = (s.orientation -1 )%4;
+				break;
+			case TURN_LEFT:
+				succState.orientation = (s.orientation -1 )%4;
+				break;
+			case TURN_ON:
+				succState.turned_on = true;
+				break;
+			case TURN_OFF:
+				succState.turned_on = false;
+				break;
+		}
 
 		// System.out.println("move: " + a + " -> next state: " + succState);
 		return succState;

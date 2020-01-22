@@ -1,6 +1,11 @@
 .DS_Store
 /bin/
 /.metadata/
-lab2/bin/
-lab2/.classpath
-lab2/.project
+
+#VScode files
+**/bin/
+**/.classpath
+**/.project
+
+#java files
+**/*.class
