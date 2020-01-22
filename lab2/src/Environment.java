@@ -15,7 +15,7 @@ public class Environment {
 	public Environment(Collection<String> percepts) {
 		initFromPercepts(percepts);
 	}
-	
+
     public void initFromPercepts(Collection<String> percepts) {
 		/*
 			Possible percepts are:
@@ -80,15 +80,15 @@ public class Environment {
 			}
 		}
 	}
-	
+
     /**
-     * 
+     *
      * @return the current state of the environment
      */
 	public State getCurrentState() {
 		return currentState;
 	}
-	
+
 	/**
 	 * updates the current state of the environment based on the given action
 	 * @param a
@@ -96,9 +96,9 @@ public class Environment {
 	public void doAction(Action a) {
 		currentState = getNextState(currentState, a);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param state
 	 * @return a list of actions that are possible in the given state
 	 */
@@ -124,7 +124,7 @@ public class Environment {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param s state
 	 * @param a action
 	 * @return the state resulting from doing a in s
@@ -132,13 +132,17 @@ public class Environment {
 	public State getNextState(State s, Action a) {
 		State succState = s.clone();
 		// TODO: fill out this function
+		// switch case 1: switching between different actions
+		// (GO, SUCK, TURN_LEFT, TURN_RIGHT, TURN_OFF, TURN_ON)
+		// In TURN_LEFT and TURN_RIGHT use mod (%4) to keep the orientation from going over 4
+		// if in case GO then you have to use facingPosition in State.java
 
 		// System.out.println("move: " + a + " -> next state: " + succState);
 		return succState;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param s
 	 * @param a
 	 * @return the cost of doing action a in state s
