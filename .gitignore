@@ -1,3 +1,6 @@
 .DS_Store
 /bin/
 /.metadata/
+lab2/bin/
+lab2/.classpath
+lab2/.project
