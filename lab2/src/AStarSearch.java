@@ -6,8 +6,8 @@ public class AStarSearch implements SearchAlgorithm {
 	private int totalNodeExpansions = 0;
 	private int maxFrontierSize = 0;
 	private int totalCost = 0;
-	private List<Action> plan;
-	private ArrayList<Node> frontier;
+	private List<Action> plan = new ArrayList<Action>();
+	private ArrayList<Node> frontier = new ArrayList<Node>();
 
 	private Heuristics heuristics;
 	public AStarSearch(Heuristics h) {
@@ -37,11 +37,10 @@ public class AStarSearch implements SearchAlgorithm {
 			else{
 				// use legalMoves of current environment to determine what leaf nodes to create
 				moves = env.legalMoves(currNode.state);
-				Node tempNode = null;
 
 				// moves is an action list that needs to be iterated through to create the new leafs at expansion.
 				for (Action action : moves) {
-					tempNode = new Node(currNode, env.getNextState(env.getCurrentState(), action), action, env.getCost(env.getCurrentState(), action)+ currNode.evaluation);
+					Node tempNode = new Node(currNode, env.getNextState(env.getCurrentState(), action), action, env.getCost(env.getCurrentState(), action)+ currNode.evaluation);
 					frontier.add(tempNode);
 				}
 				// add new nodes to the frontier and sort by total cost

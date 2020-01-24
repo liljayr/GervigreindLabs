@@ -120,7 +120,6 @@ public class Environment {
 			moves.add(Action.TURN_RIGHT);
 			moves.add(Action.TURN_LEFT);
 		}
-		System.out.println(moves);
 		return moves;
 	}
 
