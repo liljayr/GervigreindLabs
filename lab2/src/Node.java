@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class Node {
+public class Node implements Comparable<Node> {
 	public State state;
 	public Node parent;
 	public Action action;
@@ -47,6 +47,13 @@ public class Node {
 		}
 		return plan;
 	}
+
+	@Override     
+	public int compareTo(Node node) 
+	{
+	  return (this.evaluation < node.evaluation ? -1 :
+			  (this.evaluation == node.evaluation ? 0 : 1));
+	}       
 
 	public String toString() {
 		return "Node{depth: " + depth + ", value: " + evaluation + ", state: " + state + ", path: " + getPlan() + "}";

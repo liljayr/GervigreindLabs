@@ -120,6 +120,7 @@ public class Environment {
 			moves.add(Action.TURN_RIGHT);
 			moves.add(Action.TURN_LEFT);
 		}
+		System.out.println(moves);
 		return moves;
 	}
 
@@ -155,6 +156,7 @@ public class Environment {
 				succState.turned_on = false;
 				break;
 		}
+		System.out.println(succState);
 
 		// System.out.println("move: " + a + " -> next state: " + succState);
 		return succState;
