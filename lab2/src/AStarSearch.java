@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 public class AStarSearch implements SearchAlgorithm {
 
@@ -17,7 +18,7 @@ public class AStarSearch implements SearchAlgorithm {
 	@Override
 	public void doSearch(Environment env) {
 		heuristics.init(env);
-		List<Action> moves = null;
+		List<Action> moves = new LinkedList<Action>();
 		Node root = new Node(env.getCurrentState(), 0);
 		frontier.add(root);
 		Node currNode = null;
@@ -30,18 +31,38 @@ public class AStarSearch implements SearchAlgorithm {
 				frontier.remove(0);
 			}
 
-			if(currNode.action == Action.TURN_OFF && env.getCost(env.getCurrentState(), currNode.action)+ currNode.evaluation == 1){
+			if(currNode.action == Action.TURN_OFF){// && env.getCost(env.getCurrentState(), currNode.action)+ currNode.evaluation == 1){
 				// if it contains action TURN_OFF call on getPlan from Node.java and end it all
 				plan = currNode.getPlan();
 			}
 			else{
 				// use legalMoves of current environment to determine what leaf nodes to create
+				System.out.println(currNode);
 				moves = env.legalMoves(currNode.state);
 
+				//System.out.println(moves);
+
 				// moves is an action list that needs to be iterated through to create the new leafs at expansion.
-				for (Action action : moves) {
-					Node tempNode = new Node(currNode, env.getNextState(env.getCurrentState(), action), action, env.getCost(env.getCurrentState(), action)+ currNode.evaluation);
-					frontier.add(tempNode);
+				for (Action move : moves) {
+
+					Node tempNode = new Node(currNode, env.getNextState(currNode.state, move), move, env.getCost(currNode.state, move)+ currNode.evaluation);
+					//checking for a cycle of only turns
+					if(tempNode.depth > 4){
+						if(!checkForTurnCycle(tempNode)){
+							//System.out.println(tempNode);
+							frontier.add(tempNode);
+							if(frontier.size() > maxFrontierSize){
+								maxFrontierSize = frontier.size();
+							}
+						}
+					}
+					else{
+						//System.out.println(tempNode);
+						frontier.add(tempNode);
+						if(frontier.size() > maxFrontierSize){
+							maxFrontierSize = frontier.size();
+						}
+					}
 				}
 				// add new nodes to the frontier and sort by total cost
 				NodeSorter nodeSorter = new NodeSorter(frontier);         
@@ -53,6 +74,18 @@ public class AStarSearch implements SearchAlgorithm {
 		};
 		
 		// TODO implement the search here
+	}
+	private Boolean checkForTurnCycle(Node node){
+		if(node.parent.parent.parent.parent.state == node.state || node.parent.parent.state == node.state){
+			return true;
+		}
+		if(node.action == Action.TURN_LEFT && node.parent.action == Action.TURN_RIGHT || node.action == Action.TURN_RIGHT && node.parent.action == Action.TURN_LEFT){
+			return true;
+		}
+		return false;
+	}
+	private void print(List<Node> frontier){
+		frontier.forEach((f) -> System.out.println(f.evaluation + " "));
 	}
 
 	@Override

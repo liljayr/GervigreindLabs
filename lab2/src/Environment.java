@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class Environment {
 
 	protected int sizeX, sizeY;
@@ -107,11 +108,11 @@ public class Environment {
 		if (!state.turned_on) {
 			moves.add(Action.TURN_ON);
 		} else {
-			if (state.position.equals(home)) {
-				moves.add(Action.TURN_OFF);
-			}
 			if (state.dirt.contains(state.position)) {
 				moves.add(Action.SUCK);
+			}
+			if (state.position.equals(home)) {
+				moves.add(Action.TURN_OFF);
 			}
 			Coordinates facingPosition = state.facingPosition();
 			if (facingPosition.x>0 && facingPosition.y>0 && facingPosition.x<=sizeX && facingPosition.y<=sizeY && !obstacles.contains(facingPosition)) {
@@ -119,6 +120,7 @@ public class Environment {
 			}
 			moves.add(Action.TURN_RIGHT);
 			moves.add(Action.TURN_LEFT);
+
 		}
 		return moves;
 	}
@@ -143,10 +145,10 @@ public class Environment {
 				break;
 			// In TURN_LEFT and TURN_RIGHT use mod (%4) to keep the orientation from going over 4
 			case TURN_RIGHT:
-				succState.orientation = (s.orientation -1 )%4;
+				succState.orientation = ((s.orientation +1 ) % 4 + 4) % 4;
 				break;
 			case TURN_LEFT:
-				succState.orientation = (s.orientation -1 )%4;
+				succState.orientation = ((s.orientation -1) % 4 + 4) % 4;
 				break;
 			case TURN_ON:
 				succState.turned_on = true;
@@ -155,9 +157,8 @@ public class Environment {
 				succState.turned_on = false;
 				break;
 		}
-		System.out.println(succState);
 
-		// System.out.println("move: " + a + " -> next state: " + succState);
+		//System.out.println("move: " + a + " -> next state: " + succState);
 		return succState;
 	}
 
