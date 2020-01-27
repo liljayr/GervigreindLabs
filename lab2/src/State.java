@@ -17,6 +17,11 @@ public class State implements Cloneable, Comparable<State> {
 			orientation = 0;
 			turned_on = false;
 		}
+		@Override
+		public int compareTo(State state) {
+			return (this.dirt.equals(state.dirt) && this.turned_on == state.turned_on &&
+			this.position.equals(state.position) && this.orientation == state.orientation ? -1 : 0);
+		}
 
 		public Coordinates facingPosition() {
 			Coordinates res = (Coordinates)position.clone();

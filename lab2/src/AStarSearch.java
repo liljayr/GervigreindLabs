@@ -15,8 +15,6 @@ public class AStarSearch implements SearchAlgorithm {
 	private HashMap<State, Node> stateFrontier = new HashMap<State, Node>();
 	private ArrayList<Node> frontier = new ArrayList<Node>();
 	private HashMap<State, Node> stateVisited = new HashMap<State, Node>();
-	//private numOfDirt;
-	//private numOfClean = 0;
 	
 	private Heuristics heuristics;
 	public AStarSearch(Heuristics h) {
@@ -53,8 +51,8 @@ public class AStarSearch implements SearchAlgorithm {
 			}
 			else{
 				// use legalMoves of current environment to determine what leaf nodes to create
-				//System.out.println(currNode);
-				//System.out.println(currNode.state.dirt);
+				System.out.println(currNode);
+				
 				moves = env.legalMoves(currNode.state);
 
 				//System.out.println(moves);
