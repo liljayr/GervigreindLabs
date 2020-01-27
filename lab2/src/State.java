@@ -5,7 +5,7 @@ import java.util.HashSet;
  * This class holds all information about the state of the environment and the robot
  *
  */
-public class State implements Cloneable {
+public class State implements Cloneable, Comparable<State> {
 		public HashSet<Coordinates> dirt;
 		public Coordinates position;
 		public int orientation; // 0,1,2,3 for north, east, south, west
@@ -43,7 +43,6 @@ public class State implements Cloneable {
 			} catch (CloneNotSupportedException e) { e.printStackTrace(); System.exit(-1); cloned=null; }
 			return cloned;
 		}
-		
 
 		public String toString() {
 			return "State{#dirt: " + dirt.size() + ", position: " + position + ", orientation: " + orientation + ", on:" + turned_on + "}";
