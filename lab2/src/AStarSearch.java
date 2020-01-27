@@ -125,8 +125,8 @@ public class AStarSearch implements SearchAlgorithm {
 		};
 		
 		// TODO implement the search here
-		System.out.println("frontierSize: " + frontier.size());
-		System.out.println("plan: " + plan);
+		//System.out.println("frontierSize: " + frontier.size());
+		//System.out.println("plan: " + plan);
 	}
 	private Boolean checkForTurnCycle(Node node){
 		if(node.parent.parent.parent.parent.state.equals(node.state) || node.parent.parent.state.equals(node.state)){
