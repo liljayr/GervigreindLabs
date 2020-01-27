@@ -37,19 +37,20 @@ public class AStarSearch implements SearchAlgorithm {
 			}
 			else{
 				// use legalMoves of current environment to determine what leaf nodes to create
-				System.out.println(currNode);
+				//System.out.println(currNode);
 				moves = env.legalMoves(currNode.state);
 
-				//System.out.println(moves);
+				
 
 				// moves is an action list that needs to be iterated through to create the new leafs at expansion.
 				for (Action move : moves) {
-
+					//System.out.println(move);
+					//print(frontier);
 					Node tempNode = new Node(currNode, env.getNextState(currNode.state, move), move, env.getCost(currNode.state, move)+ currNode.evaluation);
 					//checking for a cycle of only turns
 					if(tempNode.depth > 4){
 						if(!checkForTurnCycle(tempNode)){
-							//System.out.println(tempNode);
+							System.out.println(tempNode);
 							frontier.add(tempNode);
 							if(frontier.size() > maxFrontierSize){
 								maxFrontierSize = frontier.size();
@@ -57,7 +58,7 @@ public class AStarSearch implements SearchAlgorithm {
 						}
 					}
 					else{
-						//System.out.println(tempNode);
+						System.out.println(tempNode);
 						frontier.add(tempNode);
 						if(frontier.size() > maxFrontierSize){
 							maxFrontierSize = frontier.size();
@@ -67,6 +68,7 @@ public class AStarSearch implements SearchAlgorithm {
 				// add new nodes to the frontier and sort by total cost
 				NodeSorter nodeSorter = new NodeSorter(frontier);         
 				frontier = nodeSorter.getSortedNodesByEvaluation();   
+				
 			}
 
 				//rinse and repeat until action TURN_OFF is at the front of the frontier.
@@ -85,7 +87,7 @@ public class AStarSearch implements SearchAlgorithm {
 		return false;
 	}
 	private void print(List<Node> frontier){
-		frontier.forEach((f) -> System.out.println(f.evaluation + " "));
+		frontier.forEach((f) -> System.out.print(f.evaluation + " "));
 	}
 
 	@Override
