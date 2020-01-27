@@ -6,7 +6,8 @@ public class Node implements Comparable<Node> {
 	public Node parent;
 	public Action action;
 	public int depth;
-	public int evaluation;
+	public int evaluation; //cost from start
+	public int heuristicEval; //estimation until end
 
 	/**
 	 * create the root node of the search tree
@@ -52,7 +53,7 @@ public class Node implements Comparable<Node> {
 	public int compareTo(Node node) 
 	{
 	  return (this.evaluation < node.evaluation ? -1 :
-			  (this.evaluation == node.evaluation ? 0 : 1));
+	  (this.evaluation == node.evaluation ? 0 : 1));
 	}       
 
 	public String toString() {

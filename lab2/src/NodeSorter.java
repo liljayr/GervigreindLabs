@@ -12,7 +12,7 @@ public class NodeSorter {
 
   }       
 
-  public ArrayList<Node> getSortedNodesByEvaluation() {         
+  public ArrayList<Node> getSortedNodesByHeuristicCost() {         
 
     Collections.sort(nodes);
 

@@ -12,6 +12,7 @@ public class Environment {
 	protected Coordinates home;
 	protected HashSet<Coordinates> obstacles;
 	protected State currentState;
+	protected State goalState;
 
 	public Environment(Collection<String> percepts) {
 		initFromPercepts(percepts);
@@ -186,5 +187,4 @@ public class Environment {
 				return 0;
 		}
 	}
-
 }
