@@ -39,6 +39,8 @@ public class Main {
 		String[] drink = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
 		String[] pet = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
 		
+
+
 		// TODO create variables, e.g.,
 		// Variable var1 = new Variable("name of the variable 1");
 		// Variable var2 = new Variable("name of the variable 2");
