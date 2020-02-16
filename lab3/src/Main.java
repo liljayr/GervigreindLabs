@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import aima.core.search.csp.Assignment;
@@ -33,35 +34,92 @@ public class Main {
 //
 //		Now, who drinks water? Who owns the zebra?
 				
-		String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
+				String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
 		String[] nations = {"Englishman", "Spaniard", "Norwegian", "Ukrainian", "Japanese"};
 		String[] cigarettes = {"Old Gold", "Kools", "Chesterfields", "Lucky Strike", "Parliaments"};
-		String[] drink = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
-		String[] pet = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
+		String[] drinks = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
+		String[] pets = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
 		
 		// TODO create variables, e.g.,
 		// Variable var1 = new Variable("name of the variable 1");
 		// Variable var2 = new Variable("name of the variable 2");
-		
-		List<Variable> variables = null;
+
 		// TODO add all your variables to this list, e.g.,
-		// variables.add(var1);
-		// variables.add(var2);
-		
+		List<Variable> color = new ArrayList<Variable>();
+		List<Variable> nation = new ArrayList<Variable>();
+		List<Variable> cigarette = new ArrayList<Variable>();
+		List<Variable> drink = new ArrayList<Variable>();
+		List<Variable> pet = new ArrayList<Variable>();
+
+		for (int i = 0; i < colors.length; i++)
+		{
+			color.add(new Variable(colors[i]));
+			nation.add(new Variable(nations[i]));
+			cigarette.add(new Variable(cigarettes[i]));
+			drink.add(new Variable(drinks[i]));
+			pet.add(new Variable(pets[i]));
+		}
+
+		List<Variable> variables = new ArrayList<Variable>();
+
+		for (int i = 0; i < colors.length; i++)
+		{
+			for (int j = 0; j < colors.length; j++)
+			{
+				if (i == 0)
+					variables.add(color.get(j));
+				else if (i == 1)
+					variables.add(nation.get(j));
+				else if (i == 2)
+					variables.add(cigarette.get(j));
+				else if (i == 3)
+					variables.add(drink.get(j));
+				else
+					variables.add(pet.get(j));
+			}	
+		}
+
 		csp = new CSP(variables);
 
-		// TODO set domains of variables, e.g.,
-		// Domain d1 = new Domain(new String[]{"foo", "bar"});
-		// csp.setDomain(var1, d1);
-		// Domain d2 = new Domain(new Integer[]{1, 2});
-		// csp.setDomain(var2, d2);
-		
-		// TODO add constraints, e.g.,
-		// csp.addConstraint(new NotEqualConstraint(var1, var2)); // meaning var1 != var2
-		// csp.addConstraint(new EqualConstraint(var1, var2)); // meaning var1 == var2
-		// csp.addConstraint(new SuccessorConstraint(var1, var2)); // meaning var1 == var2 + 1
-		// csp.addConstraint(new DifferByOneConstraint(var1, var2)); // meaning var1 == var2 + 1 or var1 == var2 - 1 
-		
+		//set domains of variables, e.g.,
+		Domain domain = new Domain(new Integer[]{1, 2, 3, 4, 5});
+
+		for(Variable var: variables)
+		{
+			if(var.getName().equals("Milk"))
+			{
+				csp.setDomain(var, new Domain(new Integer[] {3} ));
+			}
+			else if(var.getName().equals("Norwegian"))
+			{
+				csp.setDomain(var, new Domain(new Integer[] {1} ));
+			}
+			else
+			{
+				csp.setDomain(var, domain);
+			}
+		}
+
+		//add constraints, e.g.,
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
+				if (i == j)
+				{
+					// Do nothing
+				}
+				else
+				{
+					csp.addConstraint(new NotEqualConstraint(color.get(i), color.get(j)));
+					csp.addConstraint(new NotEqualConstraint(nation.get(i), nation.get(j)));
+					csp.addConstraint(new NotEqualConstraint(cigarette.get(i), cigarette.get(j)));
+					csp.addConstraint(new NotEqualConstraint(drink.get(i), drink.get(j)));
+					csp.addConstraint(new NotEqualConstraint(pet.get(i), pet.get(j)));
+				}
+			}
+		}
+
 		return csp;
 	}
 

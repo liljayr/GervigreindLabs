@@ -3,5 +3,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="lab1/src"/>
 	<classpathentry kind="lib" path="lab1/gamecontroller-gui.jar"/>
+	<classpathentry kind="src" path="lab3/src"/>
+	<classpathentry kind="src" path="lab3/dist/lib"/>
+	<classpathentry excluding="src/|dist/lib/" kind="src" path="lab3"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
