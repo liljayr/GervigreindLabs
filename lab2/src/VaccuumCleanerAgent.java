@@ -36,7 +36,10 @@ public class VaccuumCleanerAgent implements Agent {
 
     public String nextAction(Collection<String> percepts) {
     	// execute actions from the plan 1 after the other
+    	//System.out.println("PLANPLANPLAN" + plan);
+    	//System.out.println("PERCEPTTTTTSSSSSSSSSS" + percepts);
 		Action a = plan.remove(0);
+		
 		System.out.println("executing " + a);
 		return a.name();
 	}

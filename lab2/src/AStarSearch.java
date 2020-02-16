@@ -51,17 +51,18 @@ public class AStarSearch implements SearchAlgorithm {
 			}
 			else{
 				// use legalMoves of current environment to determine what leaf nodes to create
-				System.out.println(currNode);
-				
+
 				moves = env.legalMoves(currNode.state);
 
-				//System.out.println(moves);
+				
 
 				// moves is an action list that needs to be iterated through to create the new leafs at expansion.
 				for (Action move : moves) {
-
+					//System.out.println(move);
+					//print(frontier);
 					Node tempNode = new Node(currNode, env.getNextState(currNode.state, move), move, env.getCost(currNode.state, move)+ currNode.evaluation);
 					//checking for a cycle of only turns
+
 					
 					//System.out.println("checking node: " + tempNode);
 					if(!stateVisited.containsKey(tempNode.state)){
@@ -109,11 +110,13 @@ public class AStarSearch implements SearchAlgorithm {
 						}
 
 						totalNodeExpansions += 1;
+
 						if(frontier.size() > maxFrontierSize){
 							maxFrontierSize = frontier.size();
 						}
 					}
 				}
+
 			}
 			stateVisited.put(currNode.state, currNode);
 			Collections.sort(frontier);
@@ -122,8 +125,8 @@ public class AStarSearch implements SearchAlgorithm {
 		};
 		
 		// TODO implement the search here
-		System.out.println("frontierSize: " + frontier.size());
-		System.out.println("plan: " + plan);
+		//System.out.println("frontierSize: " + frontier.size());
+		//System.out.println("plan: " + plan);
 	}
 	private Boolean checkForTurnCycle(Node node){
 		if(node.parent.parent.parent.parent.state.equals(node.state) || node.parent.parent.state.equals(node.state)){
@@ -131,6 +134,7 @@ public class AStarSearch implements SearchAlgorithm {
 		}
 		return false;
 	}
+
 
 	@Override
 	public List<Action> getPlan() {
