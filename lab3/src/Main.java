@@ -96,6 +96,7 @@ public class Main {
 			{
 				csp.setDomain(var, new Domain(new Integer[] {1} ));
 			}
+			
 			else
 			{
 				csp.setDomain(var, domain);
@@ -103,6 +104,8 @@ public class Main {
 		}
 
 		//add constraints, e.g.,
+		
+		
 		for (int i = 0; i < 5; i++)
 		{
 			for (int j = 0; j < 5; j++)
@@ -118,9 +121,29 @@ public class Main {
 					csp.addConstraint(new NotEqualConstraint(cigarette.get(i), cigarette.get(j)));
 					csp.addConstraint(new NotEqualConstraint(drink.get(i), drink.get(j)));
 					csp.addConstraint(new NotEqualConstraint(pet.get(i), pet.get(j)));
+					
 				}
 			}
 		}
+		csp.addConstraint(new EqualConstraint(color.get(0), nation.get(0)));
+		csp.addConstraint(new EqualConstraint(nation.get(1), pet.get(1)));
+		csp.addConstraint(new EqualConstraint(color.get(1), drink.get(3)));
+		csp.addConstraint(new EqualConstraint(nation.get(3), drink.get(2)));
+		
+		csp.addConstraint(new SuccessorConstraint(color.get(1), color.get(2)));
+		
+		csp.addConstraint(new EqualConstraint(cigarette.get(0), pet.get(3)));
+		csp.addConstraint(new EqualConstraint(cigarette.get(1), color.get(3)));
+		
+		csp.addConstraint(new DifferByOneConstraint(cigarette.get(2), pet.get(2)));
+		csp.addConstraint(new DifferByOneConstraint(cigarette.get(1), pet.get(4)));
+		
+		csp.addConstraint(new EqualConstraint(cigarette.get(3), drink.get(1)));
+		csp.addConstraint(new EqualConstraint(nation.get(4), cigarette.get(4)));
+		csp.addConstraint(new DifferByOneConstraint(nation.get(2), color.get(4)));
+		
+		
+		
 
 		return csp;
 	}
