@@ -65,11 +65,11 @@ public class Main {
 		   Look at the end of monks.names, to see which concepts the data sets describe.
 		*/
 		
-		String dataSetName = "monks-3"; // other sets are "monks-2" and "monks-3"
+		String dataSetName = "monks-1"; // other sets are "monks-2" and "monks-3"
 		DataSet testData = loadCompleteDataSet(dataSetName + ".test", dss);
-		DataSet trainingData = loadDataSet(dataSetName + ".train", dss, 125); //changed to loadDataSet and tested different sizes
+		DataSet trainingData = loadDataSet(dataSetName + ".train", dss, 125); //changed to loadDataSet and tested different example sizes
 		// Hint: use loadDataSet(...) instead of loadCompleteDataSet(...) to load only some of the examples from a file
-		DataSet trainingData2 = loadCompleteDataSet(dataSetName + ".train", dss);
+		DataSet trainingData2 = loadCompleteDataSet(dataSetName + ".train", dss); //used for testing the learning tree with the training data
 		
 		// initialize the learner
 		DecisionTreeLearner dtl = new DecisionTreeLearner();
@@ -84,6 +84,7 @@ public class Main {
 		int nbIncorrect = testResult[1];
 		System.out.println("test result: " + nbCorrect + " of " + (nbCorrect + nbIncorrect) + " examples classified correctly (" + (nbCorrect * 100.0 / (nbCorrect + nbIncorrect)) + "%)");
 		
+		//test the decision tree using the training data
 		int[] traintestResult = dtl.test(trainingData2);
 		int trainnbCorrect = traintestResult[0];
 		int trainnbIncorrect = traintestResult[1];
