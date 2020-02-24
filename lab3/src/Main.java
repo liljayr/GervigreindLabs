@@ -11,6 +11,8 @@ import aima.core.search.csp.SolutionStrategy;
 import aima.core.search.csp.Variable;
 
 public class Main {
+	
+	private static	List<Variable> variables;
 
 	private static CSP setupCSP() {
 		CSP csp = null;
@@ -34,12 +36,14 @@ public class Main {
 //
 //		Now, who drinks water? Who owns the zebra?
 				
-				String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
+		String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
 		String[] nations = {"Englishman", "Spaniard", "Norwegian", "Ukrainian", "Japanese"};
 		String[] cigarettes = {"Old Gold", "Kools", "Chesterfields", "Lucky Strike", "Parliaments"};
 		String[] drinks = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
 		String[] pets = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
 		
+
+
 		// TODO create variables, e.g.,
 		// Variable var1 = new Variable("name of the variable 1");
 		// Variable var2 = new Variable("name of the variable 2");
@@ -60,7 +64,7 @@ public class Main {
 			pet.add(new Variable(pets[i]));
 		}
 
-		List<Variable> variables = new ArrayList<Variable>();
+		variables = new ArrayList<Variable>();
 
 		for (int i = 0; i < colors.length; i++)
 		{
@@ -94,6 +98,7 @@ public class Main {
 			{
 				csp.setDomain(var, new Domain(new Integer[] {1} ));
 			}
+			
 			else
 			{
 				csp.setDomain(var, domain);
@@ -101,6 +106,8 @@ public class Main {
 		}
 
 		//add constraints, e.g.,
+		
+		
 		for (int i = 0; i < 5; i++)
 		{
 			for (int j = 0; j < 5; j++)
@@ -116,9 +123,29 @@ public class Main {
 					csp.addConstraint(new NotEqualConstraint(cigarette.get(i), cigarette.get(j)));
 					csp.addConstraint(new NotEqualConstraint(drink.get(i), drink.get(j)));
 					csp.addConstraint(new NotEqualConstraint(pet.get(i), pet.get(j)));
+					
 				}
 			}
 		}
+		csp.addConstraint(new EqualConstraint(color.get(0), nation.get(0)));
+		csp.addConstraint(new EqualConstraint(nation.get(1), pet.get(1)));
+		csp.addConstraint(new EqualConstraint(color.get(1), drink.get(3)));
+		csp.addConstraint(new EqualConstraint(nation.get(3), drink.get(2)));
+		
+		csp.addConstraint(new SuccessorConstraint(color.get(1), color.get(2)));
+		
+		csp.addConstraint(new EqualConstraint(cigarette.get(0), pet.get(3)));
+		csp.addConstraint(new EqualConstraint(cigarette.get(1), color.get(3)));
+		
+		csp.addConstraint(new DifferByOneConstraint(cigarette.get(2), pet.get(2)));
+		csp.addConstraint(new DifferByOneConstraint(cigarette.get(1), pet.get(4)));
+		
+		csp.addConstraint(new EqualConstraint(cigarette.get(3), drink.get(1)));
+		csp.addConstraint(new EqualConstraint(nation.get(4), cigarette.get(4)));
+		csp.addConstraint(new DifferByOneConstraint(nation.get(2), color.get(4)));
+		
+		
+		
 
 		return csp;
 	}
@@ -126,10 +153,22 @@ public class Main {
 	private static void printSolution(Assignment solution) {
 		// TODO print out useful answer
 		// You can use the following to get the value assigned to a variable:
-		// Object value = solution.getAssignment(var); 
+		Variable Zebra = new Variable("Zebra");
+		Variable Water = new Variable("Water");
+		List<Object> values = new ArrayList<Object>();
+		System.out.println("solution:" + solution);
+		for(int i = 0; i < variables.size(); i++) {
+			if(variables.get(i).equals(Zebra) || variables.get(i).equals(Water)) {
+				Object value = solution.getAssignment(variables.get(i));
+				System.out.println(variables.get(i) + " is at house number " + value);
+			}
+			
+		} 
+		
 		// For debugging it might be useful to print the complete assignment and check whether
 		// it makes sense.
-		System.out.println("solution:" + solution);
+		
+		
 	}
 	
 	/**
